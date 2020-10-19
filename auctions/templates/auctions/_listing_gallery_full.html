@@ -1,0 +1,33 @@
+<a href="{% url 'listing' listing_id=listing.id %}" class="item">
+    {% if request.user.is_authenticated %}
+        <div class="about">
+            {% if listing.active == False %}
+            <i class="fas fa-store-alt-slash"></i>
+            {% endif %}
+            {% if listing in request.user.watchlist.all %}
+            <span title="you are watching this listing">
+                <i class="fas fa-eye"></i>
+            </span>
+            {% endif %}
+            {% if listing in request.user.bidded_on %}
+                {% if listing.highest_bid.user == request.user %}
+                <span title="your bid is currently winning!">
+                    <i class="fas fa-gavel"></i>
+                </span>
+                {%else%}
+                <span title="you bid on this listing">
+                    <i class="fas fa-gavel" style="color:grey"></i>
+                </span>
+                {% endif %}
+            {% endif %}
+            </div>
+        {% endif %}
+        <div class="thumbnail">
+            <img src="{{listing.img}}" alt="">
+        </div>
+        <div class="text">
+            <h6 class= "title">{{listing.name}}</h6>
+            <h6>$ {{listing.highest_bid.value}}</h6>
+            <small>{{listing.user}}</small>
+        </div>
+</a>

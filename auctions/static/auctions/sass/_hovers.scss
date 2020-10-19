@@ -1,0 +1,6 @@
+@mixin inverted_hover($bkg-color, $txt-color){
+    &:hover, &:focus, &active {
+        color: $bkg-color;
+        background-color: $txt-color;
+    }
+}

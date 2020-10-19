@@ -1,0 +1,14 @@
+<a href="{% url 'listing' listing_id=listing.id %}" class="item{% if listing.active == False %} inactive{% endif %}">
+    <div class="about">       
+        <span title="time since upload"><i class="fas fa-clock"></i> <small>{{listing.created_at|timesince}}</small></span>
+    </div>
+    <div class="thumbnail center">
+        <img src="{{listing.img}}" alt="">
+    </div>
+    <div class="text">
+        <h6 class= "title">{{listing.name}}</h6>
+        <h6>$ {{listing.highest_bid.value}} <small class="accent-color">+ $ {{ listing.price_increase }}</small></h6>
+        <span class="accent-color" title="number of users watching this"><i class="fas fa-eye"></i> {{listing.watched.count}}</span>
+        <span class="accent-color" title="number of bids"><i class="fas fa-gavel"></i> {{listing.bids.count}}</span>
+    </div>
+</a>

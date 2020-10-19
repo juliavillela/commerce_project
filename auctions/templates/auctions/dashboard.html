@@ -1,0 +1,77 @@
+{% extends "auctions/layout.html"%}
+
+{% block body %}
+    <div class="page-content">
+        <div class="dashboard-grid">
+            <div class="user-info">
+                <section id="info">
+                    <div class="section-header">
+                        <h2>hi, {{request.user.username}}! :)</h2>
+                    </div>
+                    <ul class="clean">
+                        <li><span class="green-bold">registered email:</span>
+                            <br>{{request.user.email}}</li>
+                        <li><span class="green-bold">member since:</span>
+                            <br>{{request.user.date_joined|date:"M d Y"}}</li>
+                        <li> <a href="{%url 'create'%}"><button class="fit-container"><i class="fas fa-plus-circle"></i> create new listing</button></a> </li>
+                        <li> <a href="{%url 'logout'%}"><button class="fit-container"></i>log out</button></a> </li>
+                    </ul>     
+                </section>
+                <section id="notification">
+                    <h3 class="title">notifications:</h3>
+                    <div class = notifications-container>
+                        {% for activity in notifications %}
+                        <a href="{% url 'listing' listing_id=activity.href %}">
+                            <span title="{{activity.date|timesince}} ago">
+                                <div class="notification">
+                                    {{activity.note|safe}}
+                                </div>
+                            </span>
+                        </a>
+                        {% empty %}
+                            <p class="center"> no notifications yet :)</p>
+                        {% endfor %}
+                </section>
+            </div>
+
+            <div class="user-stuff">
+                <section id="my_listings">
+                    <div class = section-header>
+                        <h3 class=title><i class="fas fa-store" style="font-size: large;"></i> my listings 
+                            <span title="open in full page" style="font-size:large; float:right">
+                                <a href="{%url 'my_listings'%}">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </span>
+                        </h3>
+                    </div>
+                    <div class="gallery-grid">
+                        {% for listing in my_listings %}
+                            {% include "auctions/_listing_gallery_owner.html" with listing=listing %}
+                        {% empty %}
+                            <p class="empty center"> you haven't created any listings yet.</p>
+                        {% endfor %}
+                    </div>
+                </section>
+                <section id="watchlist">
+                    <div class = section-header>
+                        <h3 class=title><i class="fas fa-eye" style="font-size: large;"></i> my watchlist 
+                            <span title="open in full page" style="font-size:large; float:right">
+                                <a href="{%url 'watchlist'%}">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </span>
+                        </h3>
+                    </div>
+                    <div class="gallery-grid">
+                        {% for listing in watchlist %}
+                            {% include "auctions/_listing_gallery.html" with listing=listing %}
+                        {% empty %}
+                            <p class="empty center"> your watchlist is empty.</p>
+                        {% endfor %}
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+.message {
+    width: 100%;
+    padding: 1em .6em 0em .6em;
+    min-height: 4em;
+    height: fit-content;
+    margin-top: -2em;
+    text-align: center;
+    border-bottom-left-radius: 10pt;
+    border-bottom-right-radius: 10pt;
+    margin-bottom: 1em;
+
+    .close_message {
+        float:right;
+    }
+}
+
+.message.success {
+    background: #32cd85ba;
+}
+
+.message.error {
+    background: #f77016ba;
+}
+
+.message.warning {
+    background: #ffd311c4;
+}

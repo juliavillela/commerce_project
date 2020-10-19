@@ -1,0 +1,48 @@
+.dashboard-grid {
+    section {
+        padding: 1em;
+        background: #ffffff69;
+        border: solid white;
+        margin: .5em;
+        .section-header {
+            width:100%;
+            margin: .3em 0 1em 0;
+        }
+    }
+
+    .user-info {
+        display: grid;
+        grid-template-areas: "info notification";
+        grid-template-columns: min-content auto;
+    }
+
+    .user-stuff {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        .empty {
+            grid-column-start: 1;
+            grid-column-end: last;
+        }
+    }
+
+    #info{
+        grid-area: info;
+        min-width: 250px;
+    }
+    #notification{
+        padding-top: 2em;
+        grid-area: notification;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .dashboard-grid {
+        section{
+            margin: 1em;
+        }
+        .user-info, .user-stuff {
+            display: block;
+        } 
+    }
+}

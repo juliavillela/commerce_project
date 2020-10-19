@@ -1,0 +1,7 @@
+
+<form class="condensed-form" action="{% url 'listing' listing_id=listing.id %}" method= "POST" style="display: none">
+    {% csrf_token %}
+    <textarea name="text" cols="30" rows="10"></textarea>
+    <input type="hidden" name="reply_to" value="{{comment.id}}">
+    <input type="submit" name="action" value="comment">
+</form>

@@ -1,0 +1,157 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    {{ listing.name }}
+{% endblock %}
+
+{% block body %}
+{%if listing.active == False%}
+    {% include "auctions/_closed_listing.html" with listing=listing %}
+{% endif %}
+<div class="page-content {%if listing.active == False%}closed{% endif %}" >
+
+    <section class="columns-w-n product">
+        <div class="heading-wide">
+            <h3>{{ listing.name }}</h3>
+        </div>
+        
+        {% if request.user.is_authenticated %}
+        <nav class="heading-narrow">
+
+            {% if listing.user == request.user %}
+            <a href="{% url 'edit' listing_id=listing.id %}">
+                <i class="fas fa-edit"></i>
+                <small>edit listing</small>
+            </a>
+
+            <!-- <form action="{% url 'listing' listing_id=listing.id %}" method="POST">
+                {% csrf_token %}
+                <div class="alt-submit-button color-hover">
+                    <input type="submit" name="action" value="close">
+                    <div class="visible">
+                        <i class="fas fa-times"></i>
+                        <small>close this listing</small>
+                    </div>
+                </div>
+            </form> -->
+            
+            {% else %}
+            <form action="{% url 'watchlist' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="listing_id" value="{{ listing.pk }}">
+            
+                {% if request.user in listing.watched.all %}
+                    <div class="alt-submit-button color-hover">
+                        <input type="submit" name="action" value="remove">
+                        <div class="visible">
+                            <i class="fas fa-eye-slash"></i>
+                            <small>remove from watchlist</small>
+                        </div>
+                    </div>
+                {% else %}
+                <div class="alt-submit-button color-hover">
+                    <input type="submit" name="action" value="add">
+                    <div class="visible">
+                        <i class="fas fa-eye"></i>
+                        <small>add to watchlist</small>
+                    </div>
+                </div>          
+                
+                {% endif %}
+            </form>
+            {% endif %}
+        </nav>
+        {% endif %}
+
+
+        <div class="wide-content">
+            <div class=" center img_container">
+                <img src="{{ listing.img }}" alt="">
+            </div>
+        </div>
+       
+        <div class="narrow-content">
+            <div>
+                <p>
+                    <strong>description:</strong><br>
+                    {{ listing.description }}
+                </p>
+                <p>
+                    <strong>seller: </strong>{{listing.user}}
+                </p>
+                {% if listing.external_link %}
+                <span title="this is an actual product, follow link to see it :)">   
+                    <a href="{{ listing.external_link }}" target="_blank">know more</a>
+                </span> 
+                {% endif %}
+            </div>
+            <div>
+                <hr>
+                <p>
+                    <strong>current price: </strong>
+                    <span class=green-bold>${{ listing.highest_bid.value }}</span>
+                </p>
+
+                {% if request.user.is_authenticated and listing.user != request.user %}
+                <nav>
+                    <form class="condensed-form" action="{% url 'listing' listing_id=listing.id %}", method="POST">
+                        {% csrf_token %}
+                        <input type="number" name="value" min={{listing.next_bid}} step=0.01 placeholder="place your bid">
+                        <input class="button" type="submit" name="action" value="bid!">
+                    </form>
+                </nav>
+                {% endif %}
+                {% if request.user == listing.user %}
+                <form action="{% url 'listing' listing_id=listing.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" name="action" value="close">
+                </form>
+
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    <hr>
+    <section>
+        <h3>comments:</h3>
+        {% if request.user.is_authenticated %}
+            <form class="condensed-form" action="{% url 'listing' listing_id=listing.id %}" method= "POST">
+                {% csrf_token %}
+                <textarea name="text" cols="30" rows="10"></textarea>
+                <input type="hidden" name="reply_to" value="">
+                <input type="submit" name="action" value="comment">
+            </form>
+        {% endif %}
+        <div>
+            {% for comment in listing.listing_comments.all %}
+                {% if comment.reply_to == None %}
+                    <div class=thread>
+                        <div class="comment" id="{{comment.pk}}">
+                            <h6>{{comment.user}}</h6>
+                            <p>{{comment.text}}</p>
+                            <small>{{comment.created_at|timesince}} ago</small>
+                            <nav>
+                                <a href="javascript:reply({{comment.pk}})">
+                                    <i class="fas fa-reply"></i>
+                                </a>
+                            </nav>
+                            {% include "auctions/_comment.html" with comment=comment %}
+                        </div>
+                        {% for reply in comment.replies.all %}
+                            <div class="comment reply">
+                                <h6>{{reply.user}}</h6>
+                                <p>{{reply.text}}</p>
+                                <small>{{reply.created_at|timesince}} ago</small>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% empty %}
+                <p>Be the first to comment on this listing!</p>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+
+    
+{% endblock %}

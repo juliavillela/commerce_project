@@ -1,0 +1,59 @@
+@use 'var';
+
+input, select, textarea, button {
+    padding: 3pt 10pt;
+    width: 100%;
+    border-style: none;
+    border-radius: 6pt;
+    min-height: 40px;
+    color: inherit;
+    margin-bottom: 1em;
+    &:hover, &:focus, &:active {
+        outline:none
+    }
+}
+input[type="submit"], button {
+    width:fit-content;
+    background-color: var.$color-accent;
+    color: white;
+    transition: background-color .2s;
+
+    &:hover, &:focus, &:active {
+        background-color: var.$color-accent-bright;
+    } 
+}
+
+button.fit-container {
+    width: 100%;
+    margin:0;
+}
+
+.form-container {
+    width: 80%;
+    min-width: 300px;
+    max-width: 600px;
+
+    input, textarea {
+        margin-bottom: 1em;
+    }
+}
+
+.condensed-form {
+    display: flex;
+    display: flex;
+    height: 40px;
+    border-radius: 6pt;
+    contain: content;
+
+    &:focus-within {
+        box-shadow: 1px 6px 3px #b3b9b894;
+    }
+
+    label {
+        display: none;
+    }
+    input {
+        border-style: none;
+        border-radius: 0;
+    }
+}

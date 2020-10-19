@@ -1,0 +1,205 @@
+@use 'var';
+@use 'listing';
+@use 'forms';
+@use 'gallery';
+@use 'structures';
+@use 'messages';
+@use 'elements';
+@use 'dashboard';
+@use 'mix';
+
+body {
+    display: grid;
+    grid-template-areas: 'navBar' 'content' 'footer';
+    grid-template-rows: min-content auto min-content;
+    color: var.$black;
+    background-color: var.$background;
+    margin:0;
+    font-family: sans-serif;
+    min-height: 100vh;
+    width: 100%;
+    // position: fixed;
+    letter-spacing: 1pt;
+}
+
+a {
+    color:inherit;
+    text-decoration: none;
+    &:hover, &:active, &focus{
+        text-decoration: none;
+        color: inherit;
+    }
+}
+
+h1, h2, h3 {
+    font-weight: 300;
+    letter-spacing: 2pt;
+    margin: 3pt 0;
+}
+
+p {
+    font-weight: 100;
+}
+
+form{
+    display: grid;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+}
+
+footer{
+    padding: 0.5em 2em;
+    font-size: small;
+    background: #ffffff91;
+    border-top: solid white;
+    margin-top: 1.5em;
+    text-align: right;
+}
+
+.navBar{
+    grid-area: navBar;
+    background: var.$dark-background;
+    color: var.$background;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 3.6em;
+    padding: 0 2em;
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+        height: 100%;
+        #menu-button {
+            display: none;
+        }
+        #menu {
+            height:100%;
+            display: inherit;
+            .menu-item{
+                list-style: none;
+                height: 100%;
+                padding: 0 1em;
+                align-items: center;
+                justify-content: center;
+                display: flex;
+                margin: 0;
+                @include mix.inverted-hover(var.$background, var.$black)
+            }
+            .menu-item.dropdown{
+                .sub-menu{
+                    @include mix.dropdown(3.6em);
+                    min-width: 180px;
+                    background: #2c2c2c;
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+.content {
+    padding: 2%;
+    grid-area: content;
+    width: 100%;
+    overflow:scroll;
+    box-sizing: border-box;
+}
+
+.user {
+    font-size: small;
+    text-align: right;
+    width: 100%;
+    margin-top: -1em;
+    margin-bottom: 1em;
+}
+
+.alt-submit-button{
+    width: fit-content;
+    height: fit-content;
+    contain: content;
+
+    .visible {
+        color:inherit;
+        i {
+            font-size: large;
+        }
+    }
+    input[type="submit"] {
+        position:fixed;
+        opacity: 0;
+        width:100%;
+        height:100%;
+    }
+}
+
+.color-hover {
+    &:hover, &:active, &:focus {
+        color: var.$orange;
+    }
+}
+
+.accent-color {
+    color: var.$mint-m;
+}
+@media only screen and (max-width: 1029px){
+    .content {
+        padding: 1em 0 0 0;
+    }.columns-w-n.product {
+        max-height: unset;
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+        'headingW'
+        'headingN'
+        'wide'
+        'narrow';
+    }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 1029px){
+    .page-content{
+        width: 90%;
+    }
+}
+
+
+
+@media only screen and (max-width: 600px) {
+    .navBar {
+        nav {
+            height: min-content;
+
+            #menu {
+                height: unset;
+                display: none;
+                grid-gap: 1em;
+                padding: 1em;
+                margin-top: 2em;
+                padding-top: 1em;
+                box-sizing: border-box;
+                position: fixed;
+                z-index: 2;             
+                background: var.$dark-background;
+                width: 100%;
+                left: 0;
+            }
+
+            #menu-button {
+                display: block;
+            }
+        }
+    }.content {
+        padding: 1em .5em .5em .5em;
+    }.page-content{
+        width: 100%;
+    }.columns-w-n.product{
+        padding:1em;
+
+        .img_container{
+            min-width: unset;
+        }
+    }
+}

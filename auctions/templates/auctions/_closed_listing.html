@@ -1,0 +1,16 @@
+
+<h2><i class="fas fa-store-slash"></i> this listing is closed </h2>
+
+<div class="closed-banner center">
+    <div class="banner">
+        {% if request.user == listing.user %}
+            <p>Congratulations!</p>
+            <p> <strong>{{ listing.name }}</strong> has been sold for: <strong>${{ listing.highest_bid.value }}</strong>!<br>The highest bidder is <strong>{{listing.highest_bid.user.username}}</strong> <br> please contact them at {{listing.highest_bid.user.email}}</p>
+        {% elif request.user == listing.highest_bid.user %}
+            <p>congratulations: YOU WON!!!</p>
+            <p>you can contact the seller, <strong>{{listing.user.username}}</strong>, at {{listing.user.email}}</p>
+        {% else %}
+            <p>this item has already been sold. :)<br>go back to <a href="{% url 'index' %}">active listings</a> to resume browsing.</p>
+        {% endif %}
+    </div>
+</div>

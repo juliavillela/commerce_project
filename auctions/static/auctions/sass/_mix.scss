@@ -1,0 +1,28 @@
+@mixin top-layer {
+    position: fixed;
+    z-index: 2;
+}
+
+@mixin dropdown($parentHeight) {
+    @include top-layer;
+    display: grid;
+    padding: 1em;
+    grid-gap: 1em;
+    margin-top: $parentHeight;
+    box-sizing: border-box;
+}
+
+@mixin inverted_hover($bkg-color, $txt-color){
+    transition: background-color .2s;
+    &:hover, &:focus, &active {
+        color: $bkg-color;
+        background-color: $txt-color;
+    }
+}
+
+@mixin reset_list {
+    list-style: none;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+}

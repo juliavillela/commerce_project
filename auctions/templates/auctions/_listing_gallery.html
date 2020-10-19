@@ -1,0 +1,10 @@
+        <a href="{% url 'listing' listing_id=listing.id %}" class="item{% if listing.active == False %} inactive{% endif %}">
+            <div class="thumbnail center">
+                <img src="{{listing.img}}" alt="">
+            </div>
+            <div class="text">
+                <h6 class= "title">{{listing.name}}</h6>
+                <h6>$ {{listing.highest_bid.value}}</h6>
+                <small>{{listing.user}}</small>
+            </div>
+        </a>

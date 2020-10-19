@@ -1,0 +1,73 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Auctions{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://kit.fontawesome.com/b5b44905b4.js" crossorigin="anonymous"></script>
+        <link href="{% static 'auctions/css/base.css' %}" rel="stylesheet">
+        <script src="{% static 'auctions/js/main.js'%}"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <div class="navBar">
+            <h1 class="title"><a href="{% url 'index' %}">Auctions</a></h1>
+            <nav>
+                <div id="menu-button">
+                    <a href="javascript:toggle('menu')">menu</a>
+                </div>
+                <div class="menu" id="menu">
+                    <a class="menu-item" href="{% url 'index' %}" >
+                        Active Listings
+                    </a>
+                    <a class="menu-item" href="{% url 'category' name='list' %}">
+                        Categories
+                    </a>
+                    {% if user.is_authenticated %}
+                        <a class="menu-item" href="{% url 'dashboard' %}">
+                            Dashboard
+                        </a>
+
+                    {% else %}
+                        <a class="menu-item" href="{% url 'login' %}">
+                            log in
+                        </a>
+                        <a class="menu-item" href="{% url 'register' %}">
+                            register
+                        </a>
+                    {% endif %}
+                </div>
+            </nav>
+        </div>
+
+        <div class="content">
+
+            {% if messages %}
+                {% for message in messages%}
+                    <div id="message-box" {% if message.tags %} class="message {{ message.tags }}" {%else%}class="message"{% endif %} >
+                        <a href="javascript:close_message()" class="close_message"><i class="fas fa-times"></i></a>
+                        <p>{{ message }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class= user>
+                {% if user.is_authenticated %}
+                    Signed in as <strong>{{ user.username }}</strong>.| <a href="{% url 'logout' %}">Log Out</a>
+                {% else %}
+                    Not signed in.
+                {% endif %}
+            </div>
+            <div class="vertical-center">
+                {% block body %}
+                {% endblock %}
+            </div>
+        </div>
+        <footer>
+            this project was made as part of the the online harvard course CS50 Web Programming with Python and javascript.<br>
+            most of the images displayed here are of real products and the link to them can be found in each listing by clicking on "know more" :).      
+        </footer>
+    </body>
+
+</html>

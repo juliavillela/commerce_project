@@ -1,0 +1,25 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <div class=page-content>
+        <div class=page-header>
+            <h2 class="title">{{ page_title }}</h2>
+            <nav class="switch-view">
+                <a id="list" href="javascript:switch_view('list')" class="view_button"><i class="fas fa-list-alt"></i></a>
+                <a id="grid" href="javascript:switch_view('grid')" class="view_button active"><i class="fas fa-th"></i></a>
+            </nav>
+        </div>
+
+        <div id="listings" class="gallery-grid">
+            {% if page_title == "my listings"%}
+                {% for listing in listings %}
+                {% include "auctions/_listing_gallery_owner.html" with listing=listing %}
+                {% endfor %}
+            {% else %}
+                {% for listing in listings %}
+                    {% include "auctions/_listing_gallery_full.html" with listing=listing %}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>    
+{% endblock %}
