@@ -1,1 +1,1 @@
-web: gunicorn drfapi.wsgi
+web: gunicorn wsgi.py
