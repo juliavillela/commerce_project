@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='listing',
             name='category',
-            field=models.CharField(choices=[('VN', 'vintage'), ('HM', 'handmade'), ('OD', 'custom made')], default='ANY', max_length=2),
+            field=models.CharField(choices=[('VN', 'vintage'), ('HM', 'handmade'), ('OD', 'custom made')], default='ANY', max_length=3),
         ),
         migrations.RemoveField(
             model_name='comment',
