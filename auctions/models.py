@@ -39,7 +39,7 @@ class Listing(models.Model):
         (CONTAINERS, 'pots, vases and jars')
     ]
     category = models.CharField(
-        max_length=3,
+        max_length=4,
         choices=CATEGORY_CHOICES,
         default=PLANTS,
     )
